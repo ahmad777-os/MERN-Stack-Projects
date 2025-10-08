@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contractor Diary</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #111827;
+            --muted: #94a3b8;
+            --text: #e5e7eb;
+            --brand: #22c55e;
+            --accent: #38bdf8;
+            --danger: #ef4444;
+            --card: #0b1220;
+            --border: #1f2937;
+            --ring: #2dd4bf;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+            background: radial-gradient(1200px 600px at 20% -10%, #1f2937, var(--bg));
+            color: var(--text);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            backdrop-filter: blur(8px);
+            background: color-mix(in oklab, var(--bg) 80%, transparent);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--brand), var(--accent));
+            display: grid;
+            place-items: center;
+            color: #001b0c;
+            font-weight: 800
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .tab {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--panel);
+            cursor: pointer
+        }
+
+        .tab.active {
+            outline: 2px solid var(--ring);
+        }
+
+        .grid {
+            display: grid;
+            gap: 16px
+        }
+
+        @media(min-width:900px) {
+            .grid-2 {
+                grid-template-columns: 1.2fr .8fr
+            }
+
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+
+        .card {
+            background: linear-gradient(180deg, color-mix(in oklab, var(--panel) 80%, #000 20%), var(--card));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .25)
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0
+        }
+
+        label {
+            display: block;
+            margin: 8px 0 6px;
+            color: var(--muted);
+            font-size: .9rem
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #0b1020;
+            color: var(--text)
+        }
+
+        textarea {
+            min-height: 88px;
+            resize: vertical
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        .row-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px
+        }
+
+        .btn {
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #0b1020;
+            color: var(--text);
+            cursor: pointer
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, var(--brand), #16a34a);
+            border: none;
+            color: #04120a;
+            font-weight: 700
+        }
+
+        .btn.ghost {
+            background: transparent
+        }
+
+        .btn.danger {
+            background: linear-gradient(135deg, var(--danger), #b91c1c);
+            border: none;
+            color: #2b0a0a;
+            font-weight: 700
+        }
+
+        .btn:disabled {
+            opacity: .5;
+            cursor: not-allowed
+        }
+
+        .stack {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .chip {
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: #0b1020;
+            color: var(--muted);
+            font-size: .85rem
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .table th,
+        .table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            text-align: left
+        }
+
+        .table th {
+            color: var(--muted);
+            font-weight: 600
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #0e1729;
+            border: 1px solid var(--border)
+        }
+
+        .right {
+            display: flex;
+            justify-content: flex-end
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: var(--muted);
+            font-size: .85rem
+        }
+
+        .small {
+            font-size: .85rem;
+            color: var(--muted)
+        }
+
+        .hidden {
+            display: none
+        }
+
+        .kpi {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px
+        }
+
+        @media(min-width:700px) {
+            .kpi {
+                grid-template-columns: repeat(4, 1fr)
+            }
+        }
+
+        .kpi .box {
+            background: #0b1020;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px
+        }
+
+        .kpi .box .label {
+            color: var(--muted);
+            font-size: .8rem
+        }
+
+        .kpi .box .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 6px
+        }
+
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 520px;
+            overflow: auto
+        }
+
+        .list-item {
+            border: 1px solid var(--border);
+            background: #0b1020;
+            border-radius: 14px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px
+        }
+
+        .list-item .meta {
+            display: flex;
+            flex-direction: column
+        }
+
+        .list-item .title {
+            font-weight: 700
+        }
+
+        .list-item .sub {
+            color: var(--muted);
+            font-size: .85rem
+        }
+
+        .sep {
+            height: 1px;
+            background: var(--border);
+            margin: 12px 0
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <div class="brand">
+                <div class="logo">ڈائری</div>
+                <div>
+                    <div style="font-weight:800;font-size:1.1rem">ٹھیکیدار کی ڈائری</div>
+                    <div class="small">پروجیکٹ • کام • پیسوں کا ریکارڈ</div>
+                </div>
+            </div>
+            <nav class="tabs" role="tablist">
+                <button class="tab active" data-tab="new">نیا اندراج</button>
+                <button class="tab" data-tab="entries">اندراجات</button>
+                <button class="tab" data-tab="reports">رپورٹس</button>
+                <button class="tab" data-tab="settings" title="بیک اپ اور بحالی">سیٹنگز</button>
+            </nav>
+        </div>
+    </header>
+
+
+    <main class="wrap">
+        <section id="tab-new" class="grid grid-2" dir="rtl">
+            <div class="card">
+                <h3>نیا روزانہ اندراج</h3>
+                <form id="entryForm" autocomplete="off">
+                    <div class="row">
+                        <div>
+                            <label>تاریخ</label>
+                            <input type="date" id="date" required />
+                        </div>
+                        <div>
+                            <label>موسم / تاخیر کی وجہ (اختیاری)</label>
+                            <input type="text" id="weather" placeholder="دھوپ • بارش کی تاخیر • سامان کی کمی" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <label>پروجیکٹ کا نام</label>
+                            <input id="project" placeholder="مثال: مکان نمبر 21 - ڈی ایچ اے" required />
+                        </div>
+                        <div>
+                            <label>کلائنٹ</label>
+                            <input id="client" placeholder="کلائنٹ کا پورا نام" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <label>مقام</label>
+                            <input id="location" placeholder="شہر / سائٹ کا پتہ" />
+                        </div>
+                        <div>
+                            <label>نگران / فورمین</label>
+                            <input id="supervisor" placeholder="نام" />
+                        </div>
+                    </div>
+
+                    <div class="sep"></div>
+
+                    <div class="row">
+                        <div>
+                            <label>افرادی قوت (کل)</label>
+                            <input id="workforce" type="number" min="0" placeholder="مثال: 14" />
+                        </div>
+                        <div>
+                            <label>استعمال شدہ مشینری</label>
+                            <input id="equipment" placeholder="مکسر، وائبریٹر، اسکیفولڈ" />
+                        </div>
+                    </div>
+
+                    <label>آج کیے گئے کام</label>
+                    <textarea id="tasks" placeholder="کھدائی مکمل؛ 8 ستون ڈالے گئے؛ 400 فٹ پلاسٹر کیا..."></textarea>
+
+                    <label>استعمال شدہ / موصول شدہ مواد</label>
+                    <div id="materials" class="stack"></div>
+                    <div class="row">
+                        <input id="matName" placeholder="مواد (سیمنٹ، ریت...)" />
+                        <div class="row">
+                            <input id="matQty" type="number" min="0" step="any" placeholder="مقدار" />
+                            <input id="matUnit" placeholder="یونٹ (بیگ، فٹ)" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input id="matCost" type="number" min="0" step="any" placeholder="کل قیمت (اختیاری)" />
+                        <button type="button" class="btn" id="addMat">مواد شامل کریں</button>
+                    </div>
+
+                    <div class="sep"></div>
+
+                    <div class="row-3">
+                        <div>
+                            <label>موصول شدہ ادائیگی (₨)</label>
+                            <input id="payInAmt" type="number" step="any" placeholder="مثال: 100000" />
+                        </div>
+                        <div>
+                            <label>کس سے</label>
+                            <input id="payInFrom" placeholder="کلائنٹ / ذریعہ" />
+                        </div>
+                        <div>
+                            <label>طریقہ</label>
+                            <input id="payInMethod" placeholder="نقد، بینک، ایزی پیسہ" />
+                        </div>
+                    </div>
+                    <div class="right" style="margin-top:8px">
+                        <button type="button" class="btn" id="addPayIn">ادائیگی شامل کریں</button>
+                    </div>
+                    <div id="payIns" class="list" style="margin-top:8px"></div>
+
+                    <div class="sep"></div>
+
+                    <div class="row-3">
+                        <div>
+                            <label>کی گئی ادائیگی (₨)</label>
+                            <input id="payOutAmt" type="number" step="any" placeholder="مثال: 45000" />
+                        </div>
+                        <div>
+                            <label>کسے</label>
+                            <input id="payOutTo" placeholder="سپلائر / مزدور / سب کنٹریکٹر" />
+                        </div>
+                        <div>
+                            <label>شعبہ</label>
+                            <input id="payOutCat" placeholder="سیمنٹ، اجرت، ایندھن..." />
+                        </div>
+                    </div>
+                    <div class="right" style="margin-top:8px">
+                        <button type="button" class="btn" id="addPayOut">ادائیگی شامل کریں</button>
+                    </div>
+                    <div id="payOuts" class="list" style="margin-top:8px"></div>
+
+                    <div class="sep"></div>
+
+                    <label>میٹنگز / ہدایات</label>
+                    <textarea id="meetings"
+                        placeholder="کلائنٹ نے لیونگ روم میں اضافی پلاسٹر کا کہا؛ انجینئر نے بیم کا سائز بدلا..."></textarea>
+
+                    <label>مسائل / حادثات / تاخیر</label>
+                    <textarea id="issues"
+                        placeholder="بارش کی وجہ سے 4 بجے کنکریٹ رک گئی؛ 2 مزدور غیر حاضر؛ بجلی بند..."></textarea>
+
+                    <label>اگلے دن کا منصوبہ / یاد دہانی</label>
+                    <textarea id="nextDay"
+                        placeholder="50 بیگ سیمنٹ کا آرڈر؛ پہلی منزل کا شٹرنگ شروع؛ مزدوروں کی اجرت دینی ہے..."></textarea>
+
+                    <div class="right" style="margin-top:14px; gap:8px">
+                        <button type="button" class="btn ghost" id="resetForm">صاف کریں</button>
+                        <button class="btn primary" type="submit">اندراج محفوظ کریں</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>آج کا خلاصہ</h3>
+                <div class="kpi" id="todayKpi">
+                    <div class="box">
+                        <div class="label">موصول شدہ ادائیگیاں</div>
+                        <div class="value" id="kIn">₨0</div>
+                    </div>
+                    <div class="box">
+                        <div class="label">کی گئی ادائیگیاں</div>
+                        <div class="value" id="kOut">₨0</div>
+                    </div>
+                    <div class="box">
+                        <div class="label">مواد کی لاگت</div>
+                        <div class="value" id="kMat">₨0</div>
+                    </div>
+                    <div class="box">
+                        <div class="label">خالص کیش فلو</div>
+                        <div class="value" id="kNet">₨0</div>
+                    </div>
+                </div>
+
+                <div class="sep"></div>
+                <div class="small">نوٹ: <span class="pill">رپورٹس</span> استعمال کریں تاکہ ہر پروجیکٹ کے حساب سے کل دیکھ
+                    سکیں اور بیک اپ ایکسپورٹ کریں۔</div>
+
+                <div class="footer">تمام ڈیٹا آپ کے براؤزر میں محفوظ ہوتا ہے (انٹرنیٹ کی ضرورت نہیں)۔
+                    <div style="margin-top:6px" class="stack">
+                        <button class="btn" id="backup">ایکسپورٹ JSON</button>
+                        <label class="btn" for="restoreFile" style="cursor:pointer">امپورٹ JSON</label>
+                        <input id="restoreFile" type="file" accept="application/json" class="hidden" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="tab-entries" class="hidden">
+            <div class="card">
+                <h3>تمام اندراجات</h3>
+                <div class="row">
+                    <input id="search" placeholder="پروجیکٹ، کلائنٹ یا نوٹس سے تلاش کریں..." />
+                    <div class="row">
+                        <input id="from" type="date" />
+                        <input id="to" type="date" />
+                    </div>
+                </div>
+                <div class="sep"></div>
+                <div id="entriesList" class="list"></div>
+            </div>
+        </section>
+
+        <section id="tab-reports" class="hidden">
+            <div class="card">
+                <h3>پروجیکٹ رپورٹس</h3>
+                <div class="row">
+                    <input id="projectFilter" placeholder="پروجیکٹ کے نام سے فلٹر کریں" />
+                    <button class="btn" id="exportCsv">خلاصہ CSV ایکسپورٹ کریں</button>
+                </div>
+                <div class="kpi" style="margin-top:12px">
+                    <div class="box">
+                        <div class="label">کل آمدنی</div>
+                        <div class="value" id="rIn">₹0</div>
+                    </div>
+                    <div class="box">
+                        <div class="label">کل اخراجات</div>
+                        <div class="value" id="rOut">₹0</div>
+                    </div>
+                    <div class="box">
+                        <div class="label">میٹریل خرچ</div>
+                        <div class="value" id="rMat">₹0</div>
+                    </div>
+                    <div class="box">
+                        <div class="label">خالص کیش فلو</div>
+                        <div class="value" id="rNet">₹0</div>
+                    </div>
+                </div>
+                <div class="sep"></div>
+                <table class="table" id="reportTable">
+                    <thead>
+                        <tr>
+                            <th>تاریخ</th>
+                            <th>پروجیکٹ</th>
+                            <th>کلائنٹ</th>
+                            <th>آمدنی</th>
+                            <th>اخراجات</th>
+                            <th>میٹریل خرچ</th>
+                            <th>خالص</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="tab-settings" class="hidden">
+            <div class="card">
+                <h3>سیٹنگز اور ڈیٹا</h3>
+                <p class="small">اپنے ڈیٹا کا بیک اپ بنائیں یا دوسرے ڈیوائس پر منتقل کریں۔</p>
+                <div class="stack">
+                    <button class="btn" id="backup2">JSON ایکسپورٹ</button>
+                    <label class="btn" for="restoreFile2" style="cursor:pointer">JSON امپورٹ</label>
+                    <input id="restoreFile2" type="file" accept="application/json" class="hidden" />
+                    <button class="btn danger" id="eraseAll">تمام ڈیٹا مٹائیں</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <template id="chipTpl">
+        <span class="chip"></span>
+    </template>
+
+    <template id="listItemTpl">
+        <div class="list-item">
+            <div class="meta">
+                <span class="title"></span>
+                <span class="sub"></span>
+            </div>
+            <div class="stack">
+                <span class="pill in">آمدنی: ₹0</span>
+                <span class="pill out">اخراجات: ₹0</span>
+                <span class="pill net">خالص: ₹0</span>
+                <button class="btn ghost view">دیکھیں</button>
+                <button class="btn ghost del">حذف کریں</button>
+            </div>
+        </div>
+    </template>
+
+    <dialog id="viewDialog"
+        style="max-width:800px;border:none;border-radius:16px;background:#0b1020;color:var(--text);padding:0">
+        <div class="card" style="margin:0;border:none;border-radius:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+                <h3 id="vTitle">اندراج</h3>
+                <button class="btn" id="closeView">بند کریں</button>
+            </div>
+            <div id="vBody" class="small"></div>
+        </div>
+    </dialog>
+
+
+    <script>
+        const $ = (q, el = document) => el.querySelector(q);
+        const $$ = (q, el = document) => Array.from(el.querySelectorAll(q));
+
+        const storeKey = 'contractorDiary.v1';
+        const currency = '₹'; // change if you prefer
+
+        const state = {
+            materials: [], payIns: [], payOuts: [], entries: loadEntries()
+        };
+
+        function loadEntries() {
+            try { return JSON.parse(localStorage.getItem(storeKey)) || [] } catch { return [] }
+        }
+        function saveEntries() { localStorage.setItem(storeKey, JSON.stringify(state.entries)) }
+
+        function fmt(n) {
+            const num = Number(n || 0); return isNaN(num) ? '0' : num.toLocaleString(undefined, { maximumFractionDigits: 2 })
+        }
+
+        $$('.tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                $$('.tab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const id = btn.dataset.tab;
+                $$('main section').forEach(s => s.classList.add('hidden'));
+                $('#tab-' + id).classList.remove('hidden');
+                if (id === 'entries') renderEntries();
+                if (id === 'reports') renderReports();
+            })
+        })
+
+        $('#date').valueAsDate = new Date();
+
+        $('#addMat').addEventListener('click', () => {
+            const name = $('#matName').value.trim();
+            const qty = parseFloat($('#matQty').value);
+            const unit = $('#matUnit').value.trim();
+            const cost = parseFloat($('#matCost').value);
+            if (!name) return;
+            state.materials.push({ name, qty: isNaN(qty) ? null : qty, unit, cost: isNaN(cost) ? 0 : cost });
+            $('#matName').value = $('#matQty').value = $('#matUnit').value = '';
+            $('#matCost').value = '';
+            renderMaterials(); updateTodayKpi();
+        })
+
+        function renderMaterials() {
+            const box = $('#materials'); box.innerHTML = '';
+            state.materials.forEach((m, i) => {
+                const chip = $('#chipTpl').content.firstElementChild.cloneNode(true);
+                chip.textContent = `${m.name}${m.qty ? ' • ' + m.qty : ''}${m.unit ? ' ' + m.unit : ''}${m.cost ? ' • ' + currency + fmt(m.cost) : ''}`;
+                chip.title = 'Click to remove';
+                chip.style.cursor = 'pointer';
+                chip.addEventListener('click', () => { state.materials.splice(i, 1); renderMaterials(); updateTodayKpi(); });
+                box.appendChild(chip);
+            })
+        }
+
+        $('#addPayIn').addEventListener('click', () => {
+            const amount = parseFloat($('#payInAmt').value);
+            if (isNaN(amount) || amount <= 0) return;
+            state.payIns.push({ amount, from: $('#payInFrom').value.trim(), method: $('#payInMethod').value.trim() });
+            $('#payInAmt').value = $('#payInFrom').value = $('#payInMethod').value = '';
+            renderPayIns(); updateTodayKpi();
+        })
+        function renderPayIns() {
+            const list = $('#payIns'); list.innerHTML = '';
+            state.payIns.forEach((p, i) => {
+                const item = document.createElement('div'); item.className = 'list-item';
+                item.innerHTML = `<div class="meta"><span class="title">${currency}${fmt(p.amount)}</span><span class="sub">From: ${p.from || '-'} • ${p.method || '—'}</span></div>`
+                    + `<div class="stack"><button class="btn ghost" data-i="${i}">Remove</button></div>`;
+                item.querySelector('button').addEventListener('click', () => { state.payIns.splice(i, 1); renderPayIns(); updateTodayKpi(); });
+                list.appendChild(item);
+            })
+        }
+
+        $('#addPayOut').addEventListener('click', () => {
+            const amount = parseFloat($('#payOutAmt').value);
+            if (isNaN(amount) || amount <= 0) return;
+            state.payOuts.push({ amount, to: $('#payOutTo').value.trim(), cat: $('#payOutCat').value.trim() });
+            $('#payOutAmt').value = $('#payOutTo').value = $('#payOutCat').value = '';
+            renderPayOuts(); updateTodayKpi();
+        })
+        function renderPayOuts() {
+            const list = $('#payOuts'); list.innerHTML = '';
+            state.payOuts.forEach((p, i) => {
+                const item = document.createElement('div'); item.className = 'list-item';
+                item.innerHTML = `<div class="meta"><span class="title">${currency}${fmt(p.amount)}</span><span class="sub">To: ${p.to || '-'} • ${p.cat || '—'}</span></div>`
+                    + `<div class="stack"><button class="btn ghost" data-i="${i}">Remove</button></div>`;
+                item.querySelector('button').addEventListener('click', () => { state.payOuts.splice(i, 1); renderPayOuts(); updateTodayKpi(); });
+                list.appendChild(item);
+            })
+        }
+
+        function sum(arr, key) { return arr.reduce((a, b) => a + Number(b[key] || 0), 0) }
+        function matCost() { return state.materials.reduce((a, b) => a + Number(b.cost || 0), 0) }
+        function updateTodayKpi() {
+            const In = sum(state.payIns, 'amount');
+            const Out = sum(state.payOuts, 'amount');
+            const Mat = matCost();
+            const Net = In - Out - Mat;
+            $('#kIn').textContent = currency + fmt(In);
+            $('#kOut').textContent = currency + fmt(Out);
+            $('#kMat').textContent = currency + fmt(Mat);
+            $('#kNet').textContent = currency + fmt(Net);
+        }
+
+        $('#entryForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const entry = {
+                id: crypto.randomUUID(),
+                date: $('#date').value,
+                weather: $('#weather').value.trim(),
+                project: $('#project').value.trim(),
+                client: $('#client').value.trim(),
+                location: $('#location').value.trim(),
+                supervisor: $('#supervisor').value.trim(),
+                workforce: Number($('#workforce').value || 0),
+                equipment: $('#equipment').value.trim(),
+                tasks: $('#tasks').value.trim(),
+                materials: structuredClone(state.materials),
+                payIns: structuredClone(state.payIns),
+                payOuts: structuredClone(state.payOuts),
+                meetings: $('#meetings').value.trim(),
+                issues: $('#issues').value.trim(),
+                nextDay: $('#nextDay').value.trim(),
+                kpi: {
+                    in: sum(state.payIns, 'amount'),
+                    out: sum(state.payOuts, 'amount'),
+                    materials: matCost(),
+                }
+            };
+            state.entries.unshift(entry);
+            saveEntries();
+            clearForm();
+            alert('Entry saved! You can view it in the Entries tab.');
+        })
+
+        $('#resetForm').addEventListener('click', clearForm);
+        function clearForm() {
+            $('#entryForm').reset();
+            $('#date').valueAsDate = new Date();
+            state.materials = []; state.payIns = []; state.payOuts = [];
+            renderMaterials(); renderPayIns(); renderPayOuts(); updateTodayKpi();
+        }
+
+        function renderEntries() {
+            const q = $('#search').value?.toLowerCase() || '';
+            const from = $('#from').value ? new Date($('#from').value) : null;
+            const to = $('#to').value ? new Date($('#to').value) : null;
+
+            const list = $('#entriesList'); list.innerHTML = '';
+            state.entries
+                .filter(e => {
+                    const t = [e.project, e.client, e.tasks, e.meetings, e.issues, e.location].join(' ').toLowerCase();
+                    if (q && !t.includes(q)) return false;
+                    const d = new Date(e.date);
+                    if (from && d < from) return false;
+                    if (to) { const td = new Date(to); td.setDate(td.getDate() + 1); if (d >= td) return false; }
+                    return true;
+                })
+                .forEach(e => {
+                    const item = $('#listItemTpl').content.firstElementChild.cloneNode(true);
+                    item.querySelector('.title').textContent = `${e.project || 'Untitled Project'} • ${e.date}`;
+                    item.querySelector('.sub').textContent = `${e.client || '—'} • ${e.location || '—'} • ${e.workforce || 0} workers`;
+                    const In = e.kpi?.in || 0, Out = e.kpi?.out || 0, Mat = e.kpi?.materials || 0, Net = In - Out - Mat;
+                    item.querySelector('.pill.in').textContent = `In: ${currency}${fmt(In)}`;
+                    item.querySelector('.pill.out').textContent = `Out: ${currency}${fmt(Out)}`;
+                    item.querySelector('.pill.net').textContent = `Net: ${currency}${fmt(Net)}`;
+                    item.querySelector('.view').addEventListener('click', () => viewEntry(e.id));
+                    item.querySelector('.del').addEventListener('click', () => {
+                        if (confirm('Delete this entry?')) { state.entries = state.entries.filter(x => x.id !== e.id); saveEntries(); renderEntries(); }
+                    });
+                    list.appendChild(item);
+                })
+        }
+        $('#search').addEventListener('input', renderEntries);
+        $('#from').addEventListener('change', renderEntries);
+        $('#to').addEventListener('change', renderEntries);
+
+        function viewEntry(id) {
+            const e = state.entries.find(x => x.id === id); if (!e) return;
+            $('#vTitle').textContent = `${e.project || 'Project'} — ${e.date}`;
+            const In = e.kpi?.in || 0, Out = e.kpi?.out || 0, Mat = e.kpi?.materials || 0, Net = In - Out - Mat;
+            const matHtml = e.materials?.length ? '<ul>' + e.materials.map(m => `<li>${m.name}${m.qty ? ' — ' + m.qty : ''}${m.unit ? ' ' + m.unit : ''}${m.cost ? ' • ' + currency + fmt(m.cost) : ''}</li>`).join('') + '</ul>' : '<i>None</i>';
+            const inHtml = e.payIns?.length ? '<ul>' + e.payIns.map(p => `<li>${currency}${fmt(p.amount)} • ${p.from || '-'} • ${p.method || '—'}</li>`).join('') + '</ul>' : '<i>None</i>';
+            const outHtml = e.payOuts?.length ? '<ul>' + e.payOuts.map(p => `<li>${currency}${fmt(p.amount)} • ${p.to || '-'} • ${p.cat || '—'}</li>`).join('') + '</ul>' : '<i>None</i>';
+            $('#vBody').innerHTML = `
+        <div class="grid" style="gap:8px">
+          <div><span class="small">Client:</span> ${e.client || '—'}</div>
+          <div><span class="small">Location:</span> ${e.location || '—'}</div>
+          <div><span class="small">Supervisor:</span> ${e.supervisor || '—'}</div>
+          <div><span class="small">Weather/Delay:</span> ${e.weather || '—'}</div>
+          <div><span class="small">Workers:</span> ${e.workforce || 0}</div>
+          <div><span class="small">Equipment:</span> ${e.equipment || '—'}</div>
+        </div>
+        <div class="sep"></div>
+        <div><b>Tasks:</b><br>${(e.tasks || '—').replace(/\n/g, '<br>')}</div>
+        <div class="sep"></div>
+        <div><b>Materials:</b> ${matHtml}</div>
+        <div><b>Payments In:</b> ${inHtml}</div>
+        <div><b>Payments Out:</b> ${outHtml}</div>
+        <div class="sep"></div>
+        <div class="grid grid-3">
+          <div class="box" style="background:#07121f;border:1px solid var(--border);border-radius:12px;padding:10px"><div class="small">In</div><div style="font-weight:700">${currency}${fmt(In)}</div></div>
+          <div class="box" style="background:#07121f;border:1px solid var(--border);border-radius:12px;padding:10px"><div class="small">Out + Materials</div><div style="font-weight:700">${currency}${fmt(Out + Mat)}</div></div>
+          <div class="box" style="background:#07121f;border:1px solid var(--border);border-radius:12px;padding:10px"><div class="small">Net</div><div style="font-weight:700">${currency}${fmt(Net)}</div></div>
+        </div>
+        <div class="sep"></div>
+        <div><b>Meetings / Instructions:</b><br>${(e.meetings || '—').replace(/\n/g, '<br>')}</div>
+        <div><b>Issues / Delays:</b><br>${(e.issues || '—').replace(/\n/g, '<br>')}</div>
+        <div><b>Next Day Plan:</b><br>${(e.nextDay || '—').replace(/\n/g, '<br>')}</div>
+      `;
+            $('#viewDialog').showModal();
+        }
+        $('#closeView').addEventListener('click', () => $('#viewDialog').close());
+
+        function filteredByProject() {
+            const f = $('#projectFilter').value.trim().toLowerCase();
+            if (!f) return state.entries;
+            return state.entries.filter(e => (e.project || '').toLowerCase().includes(f));
+        }
+        function renderReports() {
+            const rows = filteredByProject();
+            const tbody = $('#reportTable tbody'); tbody.innerHTML = '';
+            let totIn = 0, totOut = 0, totMat = 0;
+            rows.forEach(e => {
+                const In = e.kpi?.in || 0, Out = e.kpi?.out || 0, Mat = e.kpi?.materials || 0, Net = In - Out - Mat;
+                totIn += In; totOut += Out; totMat += Mat;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${e.date}</td><td>${e.project || '—'}</td><td>${e.client || '—'}</td><td>${currency}${fmt(In)}</td><td>${currency}${fmt(Out)}</td><td>${currency}${fmt(Mat)}</td><td>${currency}${fmt(Net)}</td>`;
+                tbody.appendChild(tr);
+            })
+            $('#rIn').textContent = currency + fmt(totIn);
+            $('#rOut').textContent = currency + fmt(totOut);
+            $('#rMat').textContent = currency + fmt(totMat);
+            $('#rNet').textContent = currency + fmt(totIn - totOut - totMat);
+        }
+        $('#projectFilter').addEventListener('input', renderReports);
+
+        function download(filename, text) {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+            a.download = filename; a.click(); URL.revokeObjectURL(a.href);
+        }
+        $('#backup').addEventListener('click', () => download('contractor-diary-backup.json', JSON.stringify(state.entries, null, 2)));
+        $('#backup2').addEventListener('click', () => download('contractor-diary-backup.json', JSON.stringify(state.entries, null, 2)));
+
+        function handleRestore(fileInput) {
+            const f = fileInput.files[0]; if (!f) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (!Array.isArray(data)) throw new Error('Invalid file');
+                    state.entries = data; saveEntries(); renderEntries(); renderReports(); alert('Import successful.');
+                } catch (err) { alert('Import failed: ' + err.message) }
+            };
+            reader.readAsText(f);
+            fileInput.value = '';
+        }
+        $('#restoreFile').addEventListener('change', () => handleRestore($('#restoreFile')));
+        $('#restoreFile2').addEventListener('change', () => handleRestore($('#restoreFile2')));
+
+        $('#exportCsv').addEventListener('click', () => {
+            const rows = filteredByProject();
+            const header = ['Date', 'Project', 'Client', 'Payments In', 'Payments Out', 'Materials Cost', 'Net'];
+            const body = rows.map(e => {
+                const In = e.kpi?.in || 0, Out = e.kpi?.out || 0, Mat = e.kpi?.materials || 0, Net = In - Out - Mat;
+                return [e.date, e.project || '', e.client || '', In, Out, Mat, Net].join(',');
+            });
+            const csv = [header.join(','), ...body].join('\n');
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+            a.download = 'contractor-report.csv'; a.click(); URL.revokeObjectURL(a.href);
+        })
+
+        $('#eraseAll').addEventListener('click', () => {
+            if (confirm('Erase ALL entries? This cannot be undone.')) {
+                state.entries = []; saveEntries(); renderEntries(); renderReports(); alert('All data erased.');
+            }
+        })
+
+        updateTodayKpi();
+    </script>
+</body>
+
+</html>

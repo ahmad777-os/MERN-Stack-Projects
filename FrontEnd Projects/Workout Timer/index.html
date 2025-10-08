@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Stopwatch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            background: linear-gradient(to bottom, #121212, #1e1e1e);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            color: #e0e0e0;
+            transition: background 0.3s, color 0.3s;
+            font-size: clamp(14px, 2vw, 16px);
+            line-height: 1.5;
+        }
+
+        body.light {
+            background: linear-gradient(to bottom, #f0f4f8, #ffffff);
+            color: #333333;
+        }
+
+        .stopwatch {
+            background: #1e1e1e;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: min(95%, 420px);
+            border: 1px solid #333333;
+            margin-bottom: 1.5rem;
+        }
+
+        body.light .stopwatch {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+            color: #4da6ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        body.light .title {
+            color: #007bff;
+        }
+
+        .time {
+            font-size: clamp(2rem, 6vw, 3rem);
+            margin-bottom: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        body.light .time {
+            color: #333333;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 1.2rem;
+        }
+
+        .buttons button {
+            flex: 1 1 auto;
+            min-width: 90px;
+            height: clamp(45px, 6vh, 55px);
+            border-radius: 8px;
+            border: none;
+            background: #4da6ff;
+            color: #ffffff;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0 1rem;
+            transition: background 0.3s, transform 0.1s;
+        }
+
+        body.light .buttons button {
+            background: #007bff;
+        }
+
+        .buttons button:hover:not(:disabled) {
+            background: #3399ff;
+            box-shadow: 0 2px 8px rgba(77, 166, 255, 0.5);
+        }
+
+        body.light .buttons button:hover:not(:disabled) {
+            background: #0056b3;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .buttons button:disabled {
+            background: #333333;
+            color: #777777;
+            cursor: not-allowed;
+        }
+
+        body.light .buttons button:disabled {
+            background: #e2e8f0;
+            color: #a0aec0;
+        }
+
+        .workout-select,
+        .mode-select,
+        .inputs,
+        .predefined {
+            margin: 1rem 0;
+            text-align: center;
+            width: min(95%, 420px);
+        }
+
+        .workout-plan {
+            background: #242424;
+            padding: 1.2rem;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 1rem;
+            max-height: 35vh;
+            overflow-y: auto;
+            width: min(95%, 420px);
+            border: 1px solid #333333;
+        }
+
+        body.light .workout-plan {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .workout-plan h3 {
+            margin-top: 0;
+            color: #4da6ff;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+
+        body.light .workout-plan h3 {
+            color: #007bff;
+        }
+
+        .workout-plan ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .workout-plan li {
+            cursor: pointer;
+            transition: color 0.2s;
+            margin-bottom: 0.5rem;
+        }
+
+        .workout-plan li.completed {
+            text-decoration: line-through;
+            color: #777777;
+        }
+
+        body.light .workout-plan li.completed {
+            color: #a0aec0;
+        }
+
+        .laps {
+            margin-top: 1.2rem;
+            max-height: 25vh;
+            overflow-y: auto;
+            font-size: 0.95rem;
+            text-align: left;
+            width: min(95%, 420px);
+        }
+
+        .lap {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #333333;
+        }
+
+        body.light .lap {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .phase {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            margin-bottom: 1rem;
+            color: #4da6ff;
+            font-weight: 600;
+        }
+
+        body.light .phase {
+            color: #007bff;
+        }
+
+        #calories {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            margin-top: 1.2rem;
+            color: #999999;
+        }
+
+        body.light #calories {
+            color: #4a5568;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .buttons {
+                gap: 8px;
+            }
+
+            .buttons button {
+                min-width: 75px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="workout-select">
+        <label for="workout">Select Workout: </label>
+        <select id="workout">
+            <option value="">-- Choose a Workout --</option>
+            <option value="fatloss">Intense Fat Loss HIIT</option>
+            <option value="strength">Beginner Strength Training</option>
+            <option value="yoga">Daily Yoga Flow</option>
+        </select>
+    </div>
+
+    <div class="workout-plan" id="workoutPlan"></div>
+
+    <div class="mode-select">
+        <label for="mode">Mode: </label>
+        <select id="mode">
+            <option value="stopwatch">Stopwatch</option>
+            <option value="countdown">Countdown</option>
+            <option value="interval">Interval</option>
+        </select>
+    </div>
+
+    <div class="inputs" id="countdown-inputs" style="display: none;">
+        <label>Countdown Time:</label>
+        <input id="cd-min" type="number" min="0" value="0" placeholder="Min">
+        <input id="cd-sec" type="number" min="0" max="59" value="30" placeholder="Sec">
+    </div>
+
+    <div class="inputs" id="interval-inputs" style="display: none;">
+        <label>Interval Settings:</label>
+        <input id="work-sec" type="number" min="1" value="40" placeholder="Work (sec)">
+        <input id="rest-sec" type="number" min="1" value="20" placeholder="Rest (sec)">
+        <input id="rounds" type="number" min="1" value="4" placeholder="Rounds">
+    </div>
+
+    <div class="predefined" id="predefined-buttons" style="display: none;">
+        <button id="set-tabata">Tabata (20/10 x8)</button>
+        <button id="set-hiit">HIIT (40/20 x4)</button>
+    </div>
+
+    <div class="stopwatch">
+        <div class="title">⏱ Timer</div>
+        <div id="phase" class="phase"></div>
+        <div class="time" id="display">00:00:00.000</div>
+        <div class="buttons">
+            <button id="start">Start</button>
+            <button id="pause" disabled>Pause</button>
+            <button id="lap" disabled>Lap</button>
+            <button id="reset" disabled>Reset</button>
+            <button id="fullscreen">Fullscreen</button>
+            <button id="theme-toggle">Toggle Theme</button>
+        </div>
+        <div class="laps" id="laps"></div>
+    </div>
+
+    <div class="inputs">
+        <input id="weight" type="number" min="1" placeholder="Weight (kg) for calorie estimate">
+    </div>
+    <div id="calories">Estimated calories burned: 0</div>
+
+    <script>
+        const workoutPlan = {
+            fatloss: `
+        <h3>🔥 Intense Fat Loss HIIT</h3>
+        <b>Warm-up (5 min):</b>
+        <ul>
+          <li>Jumping jacks – 1 min</li>
+          <li>Arm circles + shoulder rolls – 1 min</li>
+          <li>High knees – 1 min</li>
+          <li>Bodyweight squats – 1 min</li>
+          <li>Mountain climbers (slow) – 1 min</li>
+        </ul>
+        <b>Main Workout (40s work / 20s rest × 3–4 rounds):</b>
+        <ul>
+          <li>Burpees</li>
+          <li>Jump squats</li>
+          <li>Push-ups</li>
+          <li>Mountain climbers (fast)</li>
+          <li>Plank to shoulder taps</li>
+        </ul>
+        <b>Finisher (optional, repeat 3x):</b>
+        <ul>
+          <li>Sprint in place – 30 sec</li>
+          <li>Jumping lunges – 30 sec</li>
+        </ul>
+        <b>Cool Down (5 min):</b>
+        <ul>
+          <li>Forward fold stretch</li>
+          <li>Cat-cow stretch</li>
+          <li>Child’s pose</li>
+          <li>Cobra stretch</li>
+          <li>Deep breathing</li>
+        </ul>
+      `,
+            strength: `
+        <h3>💪 Beginner Strength Training</h3>
+        <b>Warm-up (5 min):</b>
+        <ul>
+          <li>Light jogging or marching in place – 2 min</li>
+          <li>Arm circles – 1 min</li>
+          <li>Leg swings – 1 min</li>
+          <li>Bodyweight squats – 1 min</li>
+        </ul>
+        <b>Main Workout (3 sets of 10-12 reps each):</b>
+        <ul>
+          <li>Squats</li>
+          <li>Push-ups (knee or wall if needed)</li>
+          <li>Bent-over rows (use dumbbells or water bottles)</li>
+          <li>Overhead press</li>
+          <li>Plank – hold 20-30 sec</li>
+        </ul>
+        <b>Cool Down (5 min):</b>
+        <ul>
+          <li>Quad stretch</li>
+          <li>Chest opener</li>
+          <li>Shoulder stretch</li>
+          <li>Hamstring stretch</li>
+          <li>Deep breathing</li>
+        </ul>
+      `,
+            yoga: `
+        <h3>🧘 Daily Yoga Flow</h3>
+        <b>Warm-up (2 min):</b>
+        <ul>
+          <li>Neck rolls</li>
+          <li>Shoulder shrugs</li>
+        </ul>
+        <b>Main Flow (hold each 30-60 sec):</b>
+        <ul>
+          <li>Sun salutations – 5 rounds</li>
+          <li>Warrior I pose</li>
+          <li>Warrior II pose</li>
+          <li>Tree pose</li>
+          <li>Downward-facing dog</li>
+          <li>Child’s pose</li>
+        </ul>
+        <b>Cool Down (3 min):</b>
+        <ul>
+          <li>Seated forward bend</li>
+          <li>Supine twist</li>
+          <li>Savasana (corpse pose)</li>
+        </ul>
+      `
+        };
+
+        const workoutDropdown = document.getElementById("workout");
+        const workoutPlanDiv = document.getElementById("workoutPlan");
+        const modeSelect = document.getElementById("mode");
+        const countdownInputs = document.getElementById("countdown-inputs");
+        const intervalInputs = document.getElementById("interval-inputs");
+        const predefinedButtons = document.getElementById("predefined-buttons");
+        const display = document.getElementById("display");
+        const phaseDiv = document.getElementById("phase");
+        const startBtn = document.getElementById("start");
+        const pauseBtn = document.getElementById("pause");
+        const resetBtn = document.getElementById("reset");
+        const lapBtn = document.getElementById("lap");
+        const laps = document.getElementById("laps");
+        const fullscreenBtn = document.getElementById("fullscreen");
+        const themeToggle = document.getElementById("theme-toggle");
+        const weightInput = document.getElementById("weight");
+        const caloriesDiv = document.getElementById("calories");
+
+        let startTime = 0;
+        let elapsedTime = 0;
+        let running = false;
+        let animationFrameId;
+        let lapCounter = 1;
+        let mode = 'stopwatch';
+        let initialTime = 0;
+        let currentRound = 1;
+        let totalRounds = 0;
+        let currentPhaseIndex = 0;
+        let phases = [];
+        let phaseStartTime = 0;
+        let remainingTime = 0;
+        let calorieInterval;
+
+        workoutDropdown.addEventListener("change", () => {
+            const selected = workoutDropdown.value;
+            workoutPlanDiv.innerHTML = workoutPlan[selected] || "";
+            addProgressTracker();
+        });
+
+        function addProgressTracker() {
+            const lis = workoutPlanDiv.querySelectorAll('li');
+            lis.forEach(li => {
+                li.addEventListener('click', () => {
+                    li.classList.toggle('completed');
+                });
+            });
+        }
+
+        modeSelect.addEventListener("change", (e) => {
+            mode = e.target.value;
+            resetTimer();
+            countdownInputs.style.display = mode === 'countdown' ? 'block' : 'none';
+            intervalInputs.style.display = mode === 'interval' ? 'block' : 'none';
+            predefinedButtons.style.display = mode === 'interval' ? 'block' : 'none';
+            lapBtn.disabled = mode !== 'stopwatch' || !running;
+            phaseDiv.textContent = '';
+        });
+
+        document.getElementById("set-tabata").addEventListener("click", () => {
+            document.getElementById("work-sec").value = 20;
+            document.getElementById("rest-sec").value = 10;
+            document.getElementById("rounds").value = 8;
+        });
+
+        document.getElementById("set-hiit").addEventListener("click", () => {
+            document.getElementById("work-sec").value = 40;
+            document.getElementById("rest-sec").value = 20;
+            document.getElementById("rounds").value = 4;
+        });
+
+        fullscreenBtn.addEventListener("click", () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        themeToggle.addEventListener("click", () => {
+            document.body.classList.toggle('light');
+        });
+
+        function formatTime(ms) {
+            if (ms < 0) ms = 0;
+            let milliseconds = Math.floor(ms % 1000);
+            let seconds = Math.floor((ms / 1000) % 60);
+            let minutes = Math.floor((ms / (1000 * 60)) % 60);
+            let hours = Math.floor(ms / (1000 * 60 * 60));
+            return (
+                String(hours).padStart(2, "0") + ":" +
+                String(minutes).padStart(2, "0") + ":" +
+                String(seconds).padStart(2, "0") + "." +
+                String(milliseconds).padStart(3, "0")
+            );
+        }
+
+        function updateTime() {
+            if (!running) return;
+
+            let currentTime;
+            if (mode === 'stopwatch') {
+                const now = Date.now();
+                elapsedTime = now - startTime;
+                currentTime = elapsedTime;
+            } else if (mode === 'countdown') {
+                const now = Date.now();
+                const delta = now - startTime;
+                currentTime = initialTime - delta;
+                if (currentTime <= 0) {
+                    currentTime = 0;
+                    stopTimer();
+                    playBeep();
+                    vibrate();
+                    speak("Time's up!");
+                }
+            } else if (mode === 'interval') {
+                const now = Date.now();
+                const delta = now - phaseStartTime;
+                remainingTime = phases[currentPhaseIndex].time - delta;
+                if (remainingTime <= 0) {
+                    nextPhase();
+                    return;
+                }
+                currentTime = remainingTime;
+                phaseDiv.textContent = `${phases[currentPhaseIndex].type.toUpperCase()} - Round ${currentRound}/${totalRounds}`;
+            }
+
+            display.textContent = formatTime(currentTime);
+            animationFrameId = requestAnimationFrame(updateTime);
+        }
+
+        function nextPhase() {
+            currentPhaseIndex++;
+            if (currentPhaseIndex >= phases.length) {
+                currentRound++;
+                if (currentRound > totalRounds) {
+                    stopTimer();
+                    playBeep();
+                    vibrate();
+                    speak("Workout complete!");
+                    return;
+                }
+                currentPhaseIndex = 0;
+            }
+            phaseStartTime = Date.now();
+            remainingTime = phases[currentPhaseIndex].time;
+            playBeep();
+            vibrate();
+            speak(phases[currentPhaseIndex].type);
+            updateTime();
+        }
+
+        function startTimer() {
+            if (mode === 'stopwatch') {
+                startTime = Date.now() - elapsedTime;
+            } else if (mode === 'countdown') {
+                const min = parseInt(document.getElementById("cd-min").value) || 0;
+                const sec = parseInt(document.getElementById("cd-sec").value) || 0;
+                initialTime = (min * 60 + sec) * 1000;
+                if (initialTime <= 0) return;
+                startTime = Date.now();
+                elapsedTime = 0; // not used
+            } else if (mode === 'interval') {
+                const work = parseInt(document.getElementById("work-sec").value) || 40;
+                const rest = parseInt(document.getElementById("rest-sec").value) || 20;
+                totalRounds = parseInt(document.getElementById("rounds").value) || 4;
+                phases = [
+                    { type: 'work', time: work * 1000 },
+                    { type: 'rest', time: rest * 1000 }
+                ];
+                currentRound = 1;
+                currentPhaseIndex = 0;
+                phaseStartTime = Date.now();
+                remainingTime = phases[0].time;
+            }
+            running = true;
+            speak("Go!");
+            animationFrameId = requestAnimationFrame(updateTime);
+            startCalorieUpdate();
+
+            startBtn.disabled = true;
+            pauseBtn.disabled = false;
+            lapBtn.disabled = mode !== 'stopwatch';
+            resetBtn.disabled = false;
+        }
+
+        function pauseTimer() {
+            running = false;
+            cancelAnimationFrame(animationFrameId);
+            if (mode === 'stopwatch') {
+                elapsedTime = Date.now() - startTime;
+            } else if (mode === 'countdown') {
+                initialTime -= Date.now() - startTime;
+                startTime = Date.now();
+            } else if (mode === 'interval') {
+                const delta = Date.now() - phaseStartTime;
+                phases[currentPhaseIndex].time -= delta;
+            }
+            stopCalorieUpdate();
+        }
+
+        function resumeTimer() {
+            running = true;
+            if (mode === 'stopwatch') {
+                startTime = Date.now() - elapsedTime;
+            } else if (mode === 'countdown') {
+                startTime = Date.now();
+            } else if (mode === 'interval') {
+                phaseStartTime = Date.now();
+            }
+            animationFrameId = requestAnimationFrame(updateTime);
+            startCalorieUpdate();
+        }
+
+        function stopTimer() {
+            running = false;
+            cancelAnimationFrame(animationFrameId);
+            pauseBtn.textContent = "Pause";
+            startBtn.disabled = false;
+            pauseBtn.disabled = true;
+            lapBtn.disabled = true;
+            resetBtn.disabled = false;
+            stopCalorieUpdate();
+        }
+
+        function resetTimer() {
+            stopTimer();
+            elapsedTime = 0;
+            initialTime = 0;
+            remainingTime = 0;
+            currentRound = 1;
+            currentPhaseIndex = 0;
+            phases = [];
+            display.textContent = "00:00:00.000";
+            phaseDiv.textContent = '';
+            laps.innerHTML = "";
+            lapCounter = 1;
+            caloriesDiv.textContent = "Estimated calories burned: 0";
+            pauseBtn.textContent = "Pause";
+            resetBtn.disabled = true;
+        }
+
+        startBtn.addEventListener("click", startTimer);
+
+        pauseBtn.addEventListener("click", () => {
+            if (running) {
+                pauseTimer();
+                pauseBtn.textContent = "Resume";
+            } else {
+                resumeTimer();
+                pauseBtn.textContent = "Pause";
+            }
+        });
+
+        resetBtn.addEventListener("click", resetTimer);
+
+        lapBtn.addEventListener("click", () => {
+            if (mode === 'stopwatch') {
+                const lapTime = formatTime(elapsedTime);
+                const lapElement = document.createElement("div");
+                lapElement.classList.add("lap");
+                lapElement.innerHTML = `Lap ${lapCounter}: ${lapTime}`;
+                laps.prepend(lapElement);
+                lapCounter++;
+            }
+        });
+
+        function playBeep() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, ctx.currentTime);
+            osc.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.1);
+        }
+
+        function vibrate() {
+            if (navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const msg = new SpeechSynthesisUtterance(text);
+                speechSynthesis.speak(msg);
+            }
+        }
+
+        function updateCalories() {
+            const weight = parseFloat(weightInput.value) || 0;
+            if (weight <= 0) return;
+            const met = 8;
+            let timeHours;
+            if (mode === 'stopwatch') {
+                timeHours = elapsedTime / 3600000;
+            } else if (mode === 'countdown') {
+                timeHours = (Date.now() - startTime) / 3600000;
+            } else {
+                timeHours = (Date.now() - startTime) / 3600000;
+            }
+            const calories = Math.round(met * weight * timeHours);
+            caloriesDiv.textContent = `Estimated calories burned: ${calories}`;
+        }
+
+        function startCalorieUpdate() {
+            updateCalories();
+            calorieInterval = setInterval(updateCalories, 1000);
+        }
+
+        function stopCalorieUpdate() {
+            clearInterval(calorieInterval);
+        }
+    </script>
+</body>
+
+</html>
