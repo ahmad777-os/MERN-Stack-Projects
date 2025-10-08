@@ -1,0 +1,58 @@
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4338ca;
+  --secondary: #8b5cf6; 
+  --text-dark: #111827;
+  --text: #111827;
+  --text-light: #6b7280;
+  --bg: #f3f4f6;
+  --white: #ffffff;
+  --radius: 1rem;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.mt-2 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mt-6 { margin-top: 2rem; }
+
+.text-center { text-align: center; }
+.rounded { border-radius: var(--radius); }
+.shadow { box-shadow: var(--shadow); }
+.bg-white { background: var(--white); }
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--text-light);
+  font-size: 1.05rem;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+a:hover {
+  color: var(--primary-dark);
+}

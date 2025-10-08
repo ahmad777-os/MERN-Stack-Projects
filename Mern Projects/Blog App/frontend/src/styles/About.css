@@ -1,0 +1,92 @@
+/* About Page */
+.about {
+  padding: 3rem 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: var(--font-main);
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+/* Header */
+.about header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--color-accent);
+}
+
+.about header p {
+  font-size: 1.2rem;
+  color: var(--color-text-secondary);
+}
+
+/* Section titles */
+.about section h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--color-accent);
+  border-left: 4px solid var(--color-accent);
+  padding-left: 0.6rem;
+}
+
+/* Section content */
+.about section {
+  margin-bottom: 2.5rem;
+}
+
+/* Lists */
+.about ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about ul li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.05rem;
+  margin: 0.6rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.6rem;
+  background: var(--color-muted-bg);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.about ul li:hover {
+  background: #f3f4f6;
+  transform: translateX(4px);
+}
+
+/* Icons */
+.about ul li svg {
+  color: var(--color-accent);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* Join Us button */
+.about a {
+  display: inline-block;
+  margin-top: 1rem;
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 500;
+  padding: 0.8rem 1.4rem;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.about a:hover {
+  background: #4338ca;
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.3);
+  transform: translateY(-2px);
+}

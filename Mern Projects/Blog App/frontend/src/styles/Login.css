@@ -1,0 +1,81 @@
+/* Container */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1.5rem;
+}
+
+.login-form {
+  padding: 2.5rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.login-form:hover {
+  transform: scale(1.01);
+}
+
+.login-form h2 {
+  margin-bottom: 2rem;
+}
+
+/* Input Groups */
+.input-group {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.2rem;
+  border-radius: 8px;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group svg {
+  margin-right: 0.8rem;
+}
+
+.input-group input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+}
+
+.input-group:focus-within {
+  outline: 1px solid;
+}
+
+/* Button */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+button:hover {
+  transform: translateY(-3px) scale(1.04);
+}
+
+/* Toggle Text */
+.toggle-text {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.toggle-text a {
+  text-decoration: none;
+}
+
+.toggle-text a:hover {
+  text-decoration: underline;
+}
