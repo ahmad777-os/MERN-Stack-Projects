@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Nova — Modern Product UI (No Images)</title>
+    <meta name="description" content="A modern responsive frontend built with HTML, CSS and JS (no images)." />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="#" aria-label="Nova homepage">
+
+                <svg width="40" height="40" viewBox="0 0 100 100" aria-hidden="true">
+                    <circle cx="30" cy="30" r="28" fill="currentColor" opacity="0.12" />
+                    <rect x="45" y="18" width="40" height="40" rx="8" fill="currentColor" opacity="0.18" />
+                    <path d="M18 70 Q45 18 82 62" stroke="currentColor" stroke-width="6" fill="none"
+                        stroke-linecap="round" opacity="0.14" />
+                </svg>
+                <span class="brand">Nova</span>
+            </a>
+
+            <nav class="nav" id="mainNav" aria-label="Main navigation">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contact" class="btn btn-ghost">Contact</a>
+            </nav>
+
+            <div class="controls">
+                <button id="themeToggle" class="icon-btn" aria-pressed="false" title="Toggle theme">🌙</button>
+                <button id="navToggle" class="icon-btn mobile-only" aria-expanded="false" aria-controls="mainNav"
+                    title="Open menu">☰</button>
+            </div>
+        </div>
+
+        <div class="hero">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <h1 class="hero-title">Build modern experiences — <span class="accent">without images</span></h1>
+                    <p class="lead">A clean, responsive frontend demonstrating advanced visuals using only CSS, SVG and
+                        JavaScript. Great for portfolios and projects that must remain lightweight and dependency-free.
+                    </p>
+
+                    <div class="hero-cta">
+                        <a href="#features" class="btn btn-primary">Explore features</a>
+                        <a href="#pricing" class="btn btn-outline">See pricing</a>
+                    </div>
+
+                    <ul class="hero-stats">
+                        <li>
+                            <strong>100%</strong>
+                            <span>CSS/SVG visuals</span>
+                        </li>
+                        <li>
+                            <strong>Responsive</strong>
+                            <span>Mobile-first</span>
+                        </li>
+                        <li>
+                            <strong>Accessible</strong>
+                            <span>ARIA & semantic</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="hero-card" aria-hidden="true">
+                    <div class="product-card">
+                        <div class="card-top">
+                            <div class="badge">New</div>
+                            <svg class="mini-illustration" viewBox="0 0 100 100" aria-hidden="true">
+                                <defs>
+                                    <linearGradient id="g1" x1="0" x2="1">
+                                        <stop offset="0" stop-color="rgba(255,255,255,0.14)" />
+                                        <stop offset="1" stop-color="rgba(255,255,255,0.06)" />
+                                    </linearGradient>
+                                </defs>
+                                <rect x="6" y="16" width="88" height="68" rx="10" fill="#ffffff10" />
+                                <circle cx="30" cy="50" r="10" fill="#ffffff20" />
+                                <rect x="46" y="38" width="38" height="24" rx="6" fill="#ffffff14" />
+                            </svg>
+                        </div>
+                        <div class="card-body">
+                            <h3>Nova UI Kit</h3>
+                            <p>Component-first CSS system. No images required — icons, cards and avatars are all
+                                generated.</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">Free</div>
+                            <button class="btn btn-sm">Get started</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <svg class="blobs" viewBox="0 0 800 400" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                    <linearGradient id="bgg" x1="0" x2="1">
+                        <stop offset="0" stop-color="#7c5cff" />
+                        <stop offset="1" stop-color="#3bd3c7" />
+                    </linearGradient>
+                </defs>
+                <g fill="url(#bgg)" opacity="0.12">
+                    <path class="blob b1"
+                        d="M100 300Q40 220 80 140Q140 40 260 80Q380 120 480 60Q600 -20 700 80Q760 160 700 220Q640 300 540 300Q440 300 340 300Q240 300 100 300Z">
+                    </path>
+                </g>
+            </svg>
+        </div>
+    </header>
+
+    <main>
+        <section id="features" class="container section features">
+            <h2 class="section-title">Features</h2>
+            <p class="section-sub">Carefully crafted UI elements created without raster images.</p>
+
+            <div class="grid-3">
+                <article class="feature">
+
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 2 L20 8 L12 14 L4 8 Z" fill="none" stroke="currentColor" stroke-width="1.6"
+                            stroke-linejoin="round" stroke-linecap="round" />
+                        <path d="M4 16 L20 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                    <h3>Vector visuals</h3>
+                    <p>Everything is drawn with SVG & CSS: icons, illustrations, and decorative elements scale crisply
+                        on all screens.</p>
+                </article>
+
+                <article class="feature">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6" />
+                        <path d="M5 20C7 15 10 13 12 13C14 13 17 15 19 20" stroke="currentColor" stroke-width="1.6"
+                            fill="none" />
+                    </svg>
+                    <h3>CSS-only avatars</h3>
+                    <p>Generate profile circles with initials and dynamic background gradients using CSS.</p>
+                </article>
+
+                <article class="feature">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3" y="4" width="18" height="12" rx="2" fill="none" stroke="currentColor"
+                            stroke-width="1.6" />
+                        <path d="M7 20H17" stroke="currentColor" stroke-width="1.6" />
+                    </svg>
+                    <h3>Accessible markup</h3>
+                    <p>Semantic HTML and ARIA attributes make the UI usable for everyone — keyboard friendly and
+                        screen-reader ready.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="pricing" class="container section pricing">
+            <h2 class="section-title">Pricing</h2>
+            <p class="section-sub">Simple plans — no surprises. Perfect for personal portfolios and prototypes.</p>
+
+            <div class="grid-3">
+                <div class="plan">
+                    <div class="plan-header">
+                        <div class="plan-title">Starter</div>
+                        <div class="plan-price">$0 <span class="per">/ forever</span></div>
+                    </div>
+                    <ul class="plan-features">
+                        <li>Single page</li>
+                        <li>CSS + JS components</li>
+                        <li>Community support</li>
+                    </ul>
+                    <button class="btn btn-primary btn-block">Start free</button>
+                </div>
+
+                <div class="plan featured">
+                    <div class="plan-header">
+                        <div class="plan-title">Pro</div>
+                        <div class="plan-price">$9 <span class="per">/ mo</span></div>
+                    </div>
+                    <ul class="plan-features">
+                        <li>Full component kit</li>
+                        <li>Updates & templates</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <button class="btn btn-primary btn-block">Get Pro</button>
+                </div>
+
+                <div class="plan">
+                    <div class="plan-header">
+                        <div class="plan-title">Agency</div>
+                        <div class="plan-price">$49 <span class="per">/ mo</span></div>
+                    </div>
+                    <ul class="plan-features">
+                        <li>Team licenses</li>
+                        <li>Design system</li>
+                        <li>Onboarding</li>
+                    </ul>
+                    <button class="btn btn-outline btn-block">Contact sales</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="container section testimonials">
+            <h2 class="section-title">What people say</h2>
+            <div class="grid-3">
+                <blockquote class="quote">
+                    <div class="avatar" data-initials="AM" aria-hidden="true"></div>
+                    <p>"Using vector-first design saved us bandwidth and made the product look sharper on all displays."
+                    </p>
+                    <cite>— Amina M., Designer</cite>
+                </blockquote>
+
+                <blockquote class="quote">
+                    <div class="avatar" data-initials="JT" aria-hidden="true"></div>
+                    <p>"The components were easy to adapt and the accessible markup helped our QA cycle."</p>
+                    <cite>— J. Thompson, Dev Lead</cite>
+                </blockquote>
+
+                <blockquote class="quote">
+                    <div class="avatar" data-initials="RK" aria-hidden="true"></div>
+                    <p>"I built a landing page in one afternoon — no images, no external assets. Incredible."</p>
+                    <cite>— R. Khan, Freelancer</cite>
+                </blockquote>
+            </div>
+        </section>
+
+        <section id="faq" class="container section faq">
+            <h2 class="section-title">Frequently asked</h2>
+            <div class="accordion">
+                <details open>
+                    <summary>Can I use this in production?</summary>
+                    <div class="acc-panel">
+                        <p>Yes. All visuals are vector/CSS-based and scale well. Always test across devices for your
+                            needs.</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Does it support dark mode?</summary>
+                    <div class="acc-panel">
+                        <p>Yes — toggle with the moon icon in the header. Theme choice is persisted locally.</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Can I export the components?</summary>
+                    <div class="acc-panel">
+                        <p>Copy the code and adapt classes. The components are modular and easy to integrate.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section id="contact" class="container section contact">
+            <h2 class="section-title">Get in touch</h2>
+            <p class="section-sub">No spam — messages are stored locally for this demo. Replace with real backend when
+                ready.</p>
+
+            <form id="contactForm" class="contact-form" novalidate>
+                <div class="form-row">
+                    <label for="name">Name</label>
+                    <input id="name" name="name" type="text" required minlength="2" placeholder="Your name" />
+                </div>
+
+                <div class="form-row">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" required placeholder="you@example.com" />
+                </div>
+
+                <div class="form-row">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="4" required
+                        placeholder="Tell me about your project..."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Send message</button>
+                    <button type="button" id="saveNewsletter" class="btn btn-ghost">Subscribe (local)</button>
+                </div>
+
+                <div id="formStatus" role="status" aria-live="polite" class="form-status"></div>
+            </form>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div>© <span id="year"></span> Nova — Made with CSS & SVG</div>
+            <div class="footer-links">
+                <a href="#contact">Contact</a>
+                <a href="#features">Docs</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+
+</html>

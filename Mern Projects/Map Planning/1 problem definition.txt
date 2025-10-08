@@ -1,0 +1,46 @@
+Example Problem Definition Template
+User Inputs:
+
+Plot size (sq. ft.): ____
+
+Bedrooms: ____
+
+Bathrooms (attached/common): ____
+
+Kitchen: Yes/No
+
+Living Room: Yes/No
+
+Dining Room: Yes/No
+
+TV Lounge: Yes/No
+
+Others: ____
+
+Model Outputs:
+
+2D floor plan (grid representation)
+
+Estimated construction budget
+
+Estimated construction time
+
+Constraints & Assumptions:
+
+Max plot size: 20,000sq. ft.
+
+Min room sizes: Bedroom - ____ sq. ft., Bathroom - ____ sq. ft., etc.
+
+Rooms must fit inside plot area
+
+Budget estimate based on average market costs
+
+Timeline estimate based on typical construction rates
+
+Success Criteria:
+
+Floor plans fit user specs without overlap
+
+Budget estimates within 15% of actual
+
+Timeline estimates reasonable

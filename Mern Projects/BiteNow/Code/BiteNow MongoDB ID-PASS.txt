@@ -1,0 +1,3 @@
+01ahmadtariq7919_db_user
+Mz4MM0kF5B1J8yYl
+mongodb+srv://01ahmadtariq7919_db_user:Mz4MM0kF5B1J8yYl@cluster0.m0fr2ug.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0

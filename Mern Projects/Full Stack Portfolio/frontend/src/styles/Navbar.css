@@ -1,0 +1,102 @@
+/* Navbar Styles */
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: rgba(15, 23, 42, 0.95); /* semi-transparent dark */
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-links a,
+.logout-btn {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+}
+
+.nav-links a:hover,
+.logout-btn:hover {
+  background: var(--color-primary);
+  color: #0f172a;
+}
+
+.active {
+  background: var(--color-primary-dark);
+  color: #fff;
+}
+
+.logout-btn {
+  background: #ef4444;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #f87171;
+}
+
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    width: 200px;
+    padding: 1rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+
+  .nav-links.open {
+    transform: translateX(0);
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links a,
+  .logout-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

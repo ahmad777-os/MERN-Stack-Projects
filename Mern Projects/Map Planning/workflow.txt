@@ -1,0 +1,62 @@
+1. Define Your Problem & Scope Clearly
+Write down exactly what inputs your model will get (e.g., plot size, number of bedrooms, bathrooms, kitchen, etc.)
+
+Decide what output it should produce (e.g., a simple 2D layout grid, cost estimate, timeline)
+
+Start small: maybe first focus on just generating a simple room layout before jumping to detailed floor plans or budget estimates.
+
+2. Create or Collect Your Dataset
+This is the most important and first big thing to create:
+
+Floor plan data:
+
+Start by sketching simple floor plans yourself or collecting existing ones.
+
+Represent floor plans as grids or simplified images with room types (bedroom, kitchen, etc.).
+
+Input-output pairs:
+
+For each floor plan, note the input features:
+
+Total plot size
+
+Number of rooms (bedrooms, bathrooms, etc.)
+
+And the corresponding output: floor plan layout, cost, timeline.
+
+Cost and time data:
+
+If you don’t have real data, estimate based on your research or rules (e.g., cost per square foot).
+
+3. Preprocess Your Data
+Convert your floor plans into a consistent format. For example:
+
+A 2D matrix/grid where each cell has a code for room type (e.g., 0 = empty, 1 = bedroom, 2 = bathroom).
+
+Normalize numerical inputs (plot size, room counts) so they are scaled well.
+
+Format your inputs as vectors, outputs as grids/images.
+
+4. Build a Simple Model Prototype
+Start with a simple neural network or basic generative model:
+
+Input: Vector of features (plot size, room counts)
+
+Output: 2D grid layout of rooms
+
+You can implement this in Python using PyTorch or TensorFlow.
+
+5. Train Your Model on Your Dataset
+Use your dataset to train this model.
+
+Evaluate how well it generates layouts that respect input constraints.
+
+6. Create Additional Models for Cost and Time
+After you have floor plan generation working, build a regression model that predicts:
+
+Estimated budget (based on floor plan features)
+
+Construction time
+
+7. Build a Simple User Interface
+Optional at first, but you can build a command-line interface or a simple web form where users input their requirements and get results.

@@ -1,0 +1,35 @@
+:root {
+  /* 🎨 Colors */
+  --color-primary: #14b8a6;
+  --color-primary-dark: #0d9488;
+  --color-bg-dark: #0f172a;
+  --color-bg-mid: #1e293b;
+  --color-bg-light: #334155;
+  --color-text-main: #f9fafb;
+  --color-text-muted: #d1d5db;
+  --color-text-subtle: #9ca3af;
+
+  /* 🌟 Shadows */
+  --shadow-soft: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0px 0px 30px rgba(20, 184, 166, 0.5);
+
+  /* 🔤 Typography */
+  --font-family: "Segoe UI", Roboto, sans-serif;
+  --font-size-xl: 3.5rem;
+  --font-size-lg: 1.8rem;
+  --font-size-md: 1.1rem;
+  --font-size-sm: 0.9rem;
+
+  /* 📐 Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 20px;
+  --spacing-lg: 40px;
+  --spacing-xl: 60px;
+
+  /* 🟢 Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-round: 50%;
+}

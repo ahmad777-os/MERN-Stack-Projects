@@ -1,0 +1,76 @@
+/* App.css */
+
+/* 🌟 Root variables */
+:root {
+  /* Colors */
+  --color-primary: #14b8a6;
+  --color-primary-dark: #0d9488;
+  --color-bg-dark: #0f172a;
+  --color-bg-mid: #1e293b;
+  --color-bg-light: #334155;
+  --color-text-main: #f9fafb;
+  --color-text-muted: #d1d5db;
+  --color-text-subtle: #9ca3af;
+
+  /* Shadows */
+  --shadow-soft: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0px 0px 30px rgba(20, 184, 166, 0.5);
+
+  /* Typography */
+  --font-family: "Segoe UI", Roboto, sans-serif;
+  --font-size-xl: 3rem;
+  --font-size-lg: 1.8rem;
+  --font-size-md: 1.1rem;
+  --font-size-sm: 0.9rem;
+
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 20px;
+  --spacing-lg: 40px;
+  --spacing-xl: 60px;
+
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-round: 50%;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+/* Body */
+body {
+  background: var(--color-bg-dark);
+  color: var(--color-text-main);
+  min-height: 100vh;
+  line-height: 1.6;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+/* Page container */
+.page {
+  padding: var(--spacing-xl) var(--spacing-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+  transition: padding 0.3s ease;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-main);
+  margin-bottom: var(--spacing-md);
+}
+
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .page {
+    padding: var(--spacing-lg) var(--spacing-sm);
+  }
+}

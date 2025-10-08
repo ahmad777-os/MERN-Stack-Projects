@@ -1,0 +1,91 @@
+/* UploadCV.css */
+
+/* Container */
+.upload-cv-container {
+  padding: var(--spacing-lg);
+  background: var(--color-bg-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  max-width: 600px;
+  margin: var(--spacing-lg) auto;
+}
+
+/* Headings */
+.upload-cv-container h2 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-md);
+  color: var(--color-primary);
+}
+
+.upload-cv-container h3 {
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text-subtle);
+}
+
+/* File input */
+.upload-cv-container input[type="file"] {
+  padding: var(--spacing-xs);
+  border: 1px solid var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-dark);
+  color: var(--color-text-main);
+  cursor: pointer;
+}
+
+/* Buttons */
+.upload-cv-container button {
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--color-primary);
+  color: var(--color-text-main);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.2s ease;
+}
+
+.upload-cv-container button:hover {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Message */
+.upload-cv-container p {
+  margin-top: var(--spacing-sm);
+  color: var(--color-text-subtle);
+}
+
+/* CV List */
+.upload-cv-container ul {
+  list-style: none;
+  margin-top: var(--spacing-md);
+}
+
+.upload-cv-container li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-bg-dark);
+  margin-bottom: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-soft);
+}
+
+.upload-cv-container li a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.upload-cv-container li a:hover {
+  text-decoration: underline;
+}
+
+.upload-cv-container li button {
+  margin-left: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}

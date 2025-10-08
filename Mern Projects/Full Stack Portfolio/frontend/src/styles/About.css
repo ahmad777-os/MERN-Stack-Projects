@@ -1,0 +1,294 @@
+/* =========================
+   About Section Styles
+   ========================= */
+.about {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  color: var(--color-text-main);
+  font-family: var(--font-family);
+}
+
+.about-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  gap: var(--spacing-xl);
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* =========================
+   Left Side
+   ========================= */
+.about-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.about-text h1 {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  margin-bottom: var(--spacing-md);
+  line-height: 1.2;
+}
+
+.highlight {
+  color: var(--color-primary);
+}
+
+.about-text .intro {
+  font-size: var(--font-size-md);
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-text-subtle);
+  line-height: 1.6;
+}
+
+/* Info Cards */
+.info-cards {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-glow);
+}
+
+.card h2 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-primary);
+}
+
+/* Timeline Style */
+.timeline ul {
+  list-style: none;
+  padding: 0;
+}
+
+.timeline li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.timeline li::before {
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+  font-size: 1.5rem;
+}
+
+/* =========================
+   Right Side (Visual)
+   ========================= */
+.about-visual {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  margin-top: var(--spacing-lg);
+  width: 100%; /* full width to center perfectly on stacked layout */
+}
+
+/* Floating circles */
+.circle {
+  position: absolute;
+  border-radius: var(--radius-round);
+  background: rgba(20, 184, 166, 0.2);
+  animation: float 6s infinite ease-in-out;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Always horizontally centered */
+.circle:nth-child(1) {
+  width: 200px;
+  height: 200px;
+  top: -20px;
+}
+
+.circle:nth-child(2) {
+  width: 300px;
+  height: 300px;
+  bottom: -40px;
+  animation-delay: 2s;
+}
+
+/* Floating card */
+.floating-card {
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.08);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  max-width: 280px;
+  margin: 0 auto; /* centers horizontally */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: var(--shadow-glow);
+  animation: pulse 4s infinite ease-in-out;
+  transition: transform 0.3s ease;
+}
+
+.floating-card:hover {
+  transform: scale(1.05) rotate(2deg);
+}
+
+.floating-card h3 {
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-primary);
+}
+
+/* =========================
+   Animations
+   ========================= */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* =========================
+   Responsive
+   ========================= */
+
+/* Large tablets / medium screens */
+@media (max-width: 900px) {
+  .about-container {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--spacing-lg);
+  }
+
+  .about-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .about-text .intro {
+    font-size: 1rem;
+  }
+
+  .info-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .about-visual {
+    margin-top: var(--spacing-md);
+  }
+
+  .floating-card {
+    max-width: 220px;
+    padding: var(--spacing-md);
+  }
+
+  .circle:nth-child(1),
+  .circle:nth-child(2) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* Tablets / small screens */
+@media (max-width: 768px) {
+  .about-text h1 {
+    font-size: 2rem;
+  }
+
+  .about-text .intro {
+    font-size: 0.95rem;
+  }
+
+  .floating-card {
+    max-width: 200px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .about-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .about-text .intro {
+    font-size: 0.9rem;
+  }
+
+  .floating-card {
+    max-width: 180px;
+    padding: var(--spacing-sm);
+  }
+
+  .circle:nth-child(1),
+  .circle:nth-child(2) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .circle:nth-child(1) {
+    width: 120px;
+    height: 120px;
+    top: -20px;
+  }
+
+  .circle:nth-child(2) {
+    width: 150px;
+    height: 150px;
+    bottom: -20px;
+  }
+}
+
+/* Very small mobile / 320px */
+@media (max-width: 320px) {
+  .about-text h1 {
+    font-size: 1.6rem;
+  }
+
+  .about-text .intro {
+    font-size: 0.85rem;
+  }
+
+  .info-cards {
+    gap: var(--spacing-sm);
+  }
+
+  .floating-card {
+    max-width: 160px;
+    padding: 8px;
+  }
+
+  .circle:nth-child(1) {
+    width: 100px;
+    height: 100px;
+    top: -15px;
+  }
+
+  .circle:nth-child(2) {
+    width: 120px;
+    height: 120px;
+    bottom: -15px;
+  }
+
+  .timeline li::before {
+    font-size: 1rem;
+  }
+}    
