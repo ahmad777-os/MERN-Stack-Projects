@@ -20,6 +20,7 @@ const Home = () => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
   const [orders, setOrders] = useState([]);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/products')
@@ -53,33 +54,21 @@ const Home = () => {
     }
   }, [user]);
 
-  // Enhanced scroll animation with slide-up effect
   useEffect(() => {
     const animateOnScroll = () => {
       const elements = document.querySelectorAll('.scroll-reveal');
       const windowHeight = window.innerHeight;
-      const elementVisible = 150; // How many pixels an element needs to be visible
-
+      const elementVisible = 150;
       elements.forEach(element => {
         const elementPosition = element.getBoundingClientRect().top;
         const isVisible = elementPosition < windowHeight - elementVisible;
-
         if (isVisible) {
           element.classList.add('active');
-        } else {
-          // Optional: Remove class if you want animation to trigger again
-          // element.classList.remove('active');
         }
       });
     };
-
-    // Initial check
     animateOnScroll();
-
-    // Add event listener
     window.addEventListener('scroll', animateOnScroll);
-
-    // Clean up
     return () => {
       window.removeEventListener('scroll', animateOnScroll);
     };
@@ -91,11 +80,11 @@ const Home = () => {
 
       <h2 className="scroll-reveal">All Products</h2>
       <div className="products-wrapper">
-        {allProducts.map((product, index) => (
+        {allProducts.slice(0, showAll ? allProducts.length : 6).map((product, index) => (
           <div 
             key={product._id} 
             className="product-card scroll-reveal"
-            style={{ transitionDelay: `${index * 0.1}s` }} // Staggered animation
+            style={{ transitionDelay: `${index * 0.1}s` }}
           >
             <img
               src={`http://localhost:5000${product.images?.[0]}`}
@@ -108,6 +97,14 @@ const Home = () => {
           </div>
         ))}
       </div>
+
+      {allProducts.length > 6 && (
+        <div className="see-more-container scroll-reveal">
+          <button className="see-more-btn" onClick={() => setShowAll(!showAll)}>
+            {showAll ? 'See Less' : 'See More'}
+          </button>
+        </div>
+      )}
 
       {categories.map((cat, catIndex) => (
         <div key={cat} className="category-section">
