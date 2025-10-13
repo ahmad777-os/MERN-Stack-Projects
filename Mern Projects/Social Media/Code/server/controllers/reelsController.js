@@ -1,14 +1,14 @@
-// server/controllers/reels.js
+// server/controllers/reelsController.js
 import Reel from "../models/Reel.js";
-import { uploadVideoBuffer } from "../utils/cloudinary.js";
+import { uploadVideoBuffer, deleteFromCloudinary } from "../utils/cloudinary.js";
 import fs from "fs/promises";
 
-// Create reel
+// ✅ Create reel
 export const createReel = async (req, res) => {
   try {
     const userId = req.userId;
     const { caption } = req.body;
-    if (!req.file) return res.status(400).json({ message: "No video file." });
+    if (!req.file) return res.status(400).json({ message: "No video file provided." });
 
     const localPath = req.file.path;
     const uploadResult = await uploadVideoBuffer(localPath, {
@@ -17,7 +17,7 @@ export const createReel = async (req, res) => {
     });
     await fs.unlink(localPath).catch(() => {});
 
-    const newReel = await Reel.create({
+    const reel = await Reel.create({
       userId,
       videoUrl: uploadResult.secure_url,
       videoPublicId: uploadResult.public_id,
@@ -25,109 +25,125 @@ export const createReel = async (req, res) => {
       duration: uploadResult.duration,
     });
 
-    // ✅ Populate user data before returning
-    const populatedReel = await Reel.findById(newReel._id).populate(
-      "userId",
-      "name username profilePic"
-    );
-
-    return res.status(201).json(populatedReel);
+    const populatedReel = await reel.populate("userId", "username profilePic");
+    res.status(201).json(populatedReel);
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: err.message || "Server error" });
+    console.error("Create reel error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-
-// Get reels (feed or explore) with pagination
+// ✅ Get feed or explore reels
 export const getReels = async (req, res) => {
   try {
-    // ✅ make page 1-based instead of 0-based
     const page = Math.max(1, parseInt(req.query.page || "1"));
     const limit = Math.min(20, parseInt(req.query.limit || "10"));
-    const mode = req.query.mode || "feed";
-    const sort = mode === "trending" ? { likesCount: -1, createdAt: -1 } : { createdAt: -1 };
+    const skip = (page - 1) * limit;
+    const mode = req.query.mode || "feed"; // "feed" or "explore"
 
-    const skip = (page - 1) * limit; // ✅ correct skip value
+    let filter = {};
+    if (mode === "feed" && req.userFollowing?.length) {
+      filter.userId = { $in: [...req.userFollowing, req.userId] };
+    }
 
-    const reels = await Reel.aggregate([
-      { $addFields: { likesCount: { $size: "$likes" } } },
-      { $sort: sort },
-      { $skip: skip }, // ✅ FIXED HERE
-      { $limit: limit },
-      {
-        $lookup: {
-          from: "users",
-          localField: "userId",
-          foreignField: "_id",
-          as: "user"
-        }
-      },
-      { $unwind: "$user" },
-      {
-        $project: {
-          comments: 0
-        }
-      }
-    ]);
+    const reels = await Reel.find(filter)
+      .populate("userId", "username profilePic")
+      .sort(mode === "trending" ? { likes: -1, createdAt: -1 } : { createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
 
-    return res.json(reels);
+    res.json(reels);
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Server error" });
+    console.error("Get reels error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-
-// Like/unlike
+// ✅ Like/unlike reel
 export const toggleLike = async (req, res) => {
   try {
     const reel = await Reel.findById(req.params.id);
     if (!reel) return res.status(404).json({ message: "Reel not found" });
 
     const userId = req.userId;
-    const alreadyLiked = reel.likes.includes(userId);
+    const liked = reel.likes.includes(userId);
 
-    if (alreadyLiked) {
-      reel.likes = reel.likes.filter((id) => id.toString() !== userId);
+    if (liked) {
+      reel.likes.pull(userId);
     } else {
       reel.likes.push(userId);
     }
-
     await reel.save();
 
-    res.json({
-      liked: !alreadyLiked,
-      likesCount: reel.likes.length,
-    });
+    res.json({ liked: !liked, likesCount: reel.likes.length });
   } catch (err) {
     console.error("Like error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-
-// Add comment
+// ✅ Add comment
 export const addComment = async (req, res) => {
   try {
+    const { text } = req.body;
+    if (!text) return res.status(400).json({ message: "Comment text required" });
+
     const reel = await Reel.findById(req.params.id);
     if (!reel) return res.status(404).json({ message: "Reel not found" });
 
-    const newComment = {
-      userId: req.userId,
-      text: req.body.text,
-      createdAt: new Date(),
-    };
-
-    reel.comments.push(newComment);
+    reel.comments.push({ userId: req.userId, text });
     await reel.save();
 
-    const populatedReel = await reel.populate("comments.userId", "username profilePic");
+    const populated = await reel.populate("comments.userId", "username profilePic");
+    const newComment = populated.comments[populated.comments.length - 1];
 
-    const addedComment = populatedReel.comments[populatedReel.comments.length - 1];
-    res.json(addedComment);
+    res.status(201).json(newComment);
   } catch (err) {
-    console.error("Comment error:", err);
+    console.error("Add comment error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// ✅ Add reply to a comment
+export const addReply = async (req, res) => {
+  try {
+    const { text } = req.body;
+    const { id, commentId } = req.params;
+
+    const reel = await Reel.findById(id);
+    if (!reel) return res.status(404).json({ message: "Reel not found" });
+
+    const comment = reel.comments.id(commentId);
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
+
+    comment.replies.push({ userId: req.userId, text });
+    await reel.save();
+
+    const populated = await reel.populate("comments.replies.userId", "username profilePic");
+    res.status(201).json(comment.replies[comment.replies.length - 1]);
+  } catch (err) {
+    console.error("Reply error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// ✅ Delete reel (user’s own only)
+export const deleteReel = async (req, res) => {
+  try {
+    const reel = await Reel.findById(req.params.id);
+    if (!reel) return res.status(404).json({ message: "Reel not found" });
+    if (reel.userId.toString() !== req.userId) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    if (reel.videoPublicId) {
+      await deleteFromCloudinary(reel.videoPublicId);
+    }
+
+    await reel.deleteOne();
+    res.json({ message: "Reel deleted successfully" });
+  } catch (err) {
+    console.error("Delete reel error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
