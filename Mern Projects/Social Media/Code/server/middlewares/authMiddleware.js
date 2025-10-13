@@ -1,3 +1,4 @@
+// authMiddleware.js (unchanged, but confirming it exports default)
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 
@@ -23,4 +24,4 @@ const auth = async (req, res, next) => {
   }
 };
 
-export default auth; // ✅ use default export here
+export default auth;
