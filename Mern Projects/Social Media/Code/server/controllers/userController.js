@@ -75,3 +75,37 @@ export const unfollowUser = async (req, res) => {
     res.status(500).json({ msg: "Server error" });
   }
 };
+// GET /users/search?username=ahmad
+export const searchUsers = async (req, res) => {
+  try {
+    const { username } = req.query;
+    const users = await User.find({
+      username: { $regex: username, $options: "i" }, // case-insensitive match
+    }).select("_id username profilePic");
+    res.json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const getSuggestions = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const currentUser = await User.findById(userId);
+    if (!currentUser) return res.status(404).json({ message: "User not found" });
+
+    const following = currentUser.following.map((f) => f.toString());
+
+    const suggestions = await User.find({
+      _id: { $ne: userId, $nin: following },
+    })
+      .limit(20)
+      .select("_id username bio profilePic");
+
+    res.json(suggestions);
+  } catch (err) {
+    console.error("Error in getSuggestions:", err);
+    res.status(500).json({ error: err.message });
+  }
+};
