@@ -1,0 +1,229 @@
+Excellent — now we’re entering **⚙️ PHASE 2: Backend Development (API & Database)** — the *core engine* of your Foodify app 🍔⚙️.
+
+Here’s a **step-by-step roadmap** to build a complete, scalable backend (Express + MongoDB + JWT).
+We’ll go from **setup → authentication → CRUD → testing** — exactly like in real-world MERN projects.
+
+---
+
+## 🧭 **PHASE 2: BACKEND DEVELOPMENT ROADMAP**
+
+### 🎯 **Main Goals**
+
+* Learn **REST API design**
+* Implement **CRUD operations**
+* Secure routes using **JWT authentication**
+* Connect and manage **MongoDB**
+* Handle **File Uploads (Multer / Cloudinary)**
+* Test APIs using **Postman**
+
+---
+
+## 🗺️ ROADMAP OVERVIEW
+
+| Step | Task                              | Output                                      |
+| ---- | --------------------------------- | ------------------------------------------- |
+| 1    | Project Configuration             | Express server + MongoDB connected          |
+| 2    | Models Setup                      | All data schemas created                    |
+| 3    | Controllers & Routes              | CRUD logic & REST endpoints                 |
+| 4    | JWT Auth Middleware               | Secure routes for logged-in users           |
+| 5    | File Upload (Multer + Cloudinary) | Image upload feature for dishes/restaurants |
+| 6    | Testing                           | All routes verified in Postman              |
+
+---
+
+## 🧩 **STEP-BY-STEP PLAN**
+
+---
+
+### **🧱 Step 1: Express Server Setup**
+
+**Goal:** Create a working server and connect MongoDB.
+
+**Tasks:**
+
+1. Inside `backend/`, create:
+
+   ```
+   backend/
+   ├── config/
+   │   └── db.js
+   ├── server.js
+   ├── .env
+   ```
+2. Install dependencies (if not already):
+
+   ```bash
+   npm install express mongoose dotenv cors
+   npm install nodemon --save-dev
+   ```
+3. Setup `.env`:
+
+   ```env
+   PORT=5000
+   MONGO_URI=your_mongo_connection_string
+   JWT_SECRET=your_secret_key
+   CLOUDINARY_URL=your_cloudinary_url
+   ```
+4. In `config/db.js` → write MongoDB connection logic.
+5. In `server.js` → create Express app, use middleware, connect DB, and start server.
+
+✅ **Output:**
+Running `npm run dev` starts server → “MongoDB Connected” + “Server running on port 5000”
+
+---
+
+### **📘 Step 2: Create Mongoose Models**
+
+**Goal:** Define all database schemas.
+
+**Folder:**
+`backend/models/`
+
+**Files to create:**
+
+```
+models/
+├── User.js
+├── Restaurant.js
+├── MenuItem.js
+├── Order.js
+├── Review.js
+└── Notification.js
+```
+
+Each model defines fields & relationships:
+
+* **User:** name, email, password (hashed), role
+* **Restaurant:** linked to owner, cuisine, rating, image
+* **MenuItem:** linked to restaurant
+* **Order:** linked to user + restaurant + items
+* **Review:** linked to user + restaurant
+* **Notification:** message + readStatus
+
+✅ **Output:**
+All Mongoose schemas ready for CRUD.
+
+---
+
+### **🧠 Step 3: Controllers & Routes**
+
+**Goal:** Build API endpoints (logic + routing).
+
+**Structure:**
+
+```
+backend/
+├── controllers/
+│   ├── authController.js
+│   ├── restaurantController.js
+│   ├── menuController.js
+│   ├── orderController.js
+│   ├── reviewController.js
+│   └── userController.js
+└── routes/
+    ├── authRoutes.js
+    ├── restaurantRoutes.js
+    ├── menuRoutes.js
+    ├── orderRoutes.js
+    ├── reviewRoutes.js
+    └── userRoutes.js
+```
+
+**Example:**
+
+```js
+// routes/authRoutes.js
+router.post("/register", registerUser);
+router.post("/login", loginUser);
+router.post("/forgot-password", forgotPassword);
+```
+
+✅ **Output:**
+API routes structured and connected in `server.js`.
+
+---
+
+### **🔐 Step 4: JWT Authentication Middleware**
+
+**Goal:** Protect routes like `/api/orders` or `/api/profile`.
+
+**Steps:**
+
+1. Create `middleware/authMiddleware.js`
+2. Verify token from `Authorization` header
+3. Attach user info to `req.user`
+4. Use middleware in private routes
+
+✅ **Output:**
+Only logged-in users can access protected routes.
+
+---
+
+### **🖼️ Step 5: File Uploads (Multer + Cloudinary)**
+
+**Goal:** Allow restaurants to upload images.
+
+**Steps:**
+
+1. Setup `utils/cloudinary.js` for Cloudinary config
+2. Use `multer` middleware for image uploads
+3. Upload to Cloudinary and save URL in MongoDB
+
+✅ **Output:**
+Images uploaded via API, stored online, and retrievable.
+
+---
+
+### **🧪 Step 6: Test with Postman**
+
+**Goal:** Verify every route.
+
+**Checklist:**
+
+| Route                | Test Type          |
+| -------------------- | ------------------ |
+| `/api/auth/register` | POST – user signup |
+| `/api/auth/login`    | POST – get token   |
+| `/api/restaurants`   | CRUD               |
+| `/api/menu`          | CRUD               |
+| `/api/orders`        | Create + Update    |
+| `/api/reviews`       | POST + GET         |
+| `/api/users/profile` | GET + PUT          |
+
+✅ **Output:**
+All APIs tested, working, and secured.
+
+---
+
+## 🧰 **Final Folder Structure (after Phase 2)**
+
+```
+backend/
+├── config/
+│   └── db.js
+├── controllers/
+├── middleware/
+│   └── authMiddleware.js
+├── models/
+├── routes/
+├── utils/
+│   └── cloudinary.js
+├── .env
+├── package.json
+└── server.js
+```
+
+---
+
+## 🏁 **Learning Outcomes**
+
+By the end of Phase 2, you’ll master:
+✅ Express.js API architecture
+✅ MongoDB & Mongoose relationships
+✅ JWT-based authentication
+✅ File uploads using Multer/Cloudinary
+✅ Testing APIs using Postman
+
+---
+
+Would you like me to start building **Step 1: Express Server + MongoDB connection setup** (with ready code for `server.js` and `db.js`)?
