@@ -5,7 +5,7 @@ const restaurantSchema = new mongoose.Schema(
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     name: { type: String, required: true, trim: true },
     cuisine: { type: String, required: true },
-    rating: { type: Number, default: 0 },
+    rating: { type: Number, default: 0, min: 0, max: 5 },
     image: { type: String },
   },
   { timestamps: true }

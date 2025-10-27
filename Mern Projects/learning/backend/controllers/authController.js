@@ -9,7 +9,7 @@ export const registerUser = async (req, res) => {
     if (userExist)
       return res.status(400).json({ message: "User Already Exist" });
 
-    await User.create({ name, email, password, role }); // password is auto-hashed
+    await User.create({ name, email, password, role });
     res.status(201).json({ message: "User Registered Successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -28,6 +28,10 @@ export const loginUser = async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ message: "Invalid Credentials" });
 
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET is not defined in environment variables");
+    }
+
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
@@ -37,6 +41,12 @@ export const loginUser = async (req, res) => {
     res.status(200).json({
       message: "User Login Successfully",
       token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
